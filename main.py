@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import *
 
+import base
+
 app = QApplication([])
 window = QWidget()
 
@@ -10,7 +12,8 @@ window.resize(500, 500)
 menu8tn = QPushButton("меню")
 rest8tn = QPushButton("Відпочити від ігора")
 timeSpn = QSpinBox()
-timeLbl = QLabel("хвилини до до нападу ігора з кавою на жопі")
+timeLbl = QLabel("хвилин")
+
 
 hyra = QLabel("Яблуко")
 
@@ -23,18 +26,52 @@ firstLine.addWidget(hyra)
 mainLine.addLayout(firstLine)
 
 answersGroup = QGroupBox("Варіанти відповідей")
-answer1 = QRadioButton("1")
-answer2 = QRadioButton("2")
-answer3 = QRadioButton("3")
-answer4 = QRadioButton("4")
+answer1 = QRadioButton("Гітлер")
+answer2 = QRadioButton("Влад")
+answer3 = QRadioButton("Віталік")
+answer4 = QRadioButton("Юра")
+nextbut = QPushButton("наступний запитання")
+ansbut = QPushButton("відповісти")
+
+
+answers = [answer1, answer2, answer3, answer4]
+
 answersLine = QVBoxLayout()
 answersLine.addWidget(answer1)
 answersLine.addWidget(answer2)
 answersLine.addWidget(answer3)
 answersLine.addWidget(answer4)
+
+result = QLabel("результат")
+answersLine.addWidget(result)
+result.hide()
+
 answersGroup.setLayout(answersLine)
 mainLine.addWidget(answersGroup)
+mainLine.addWidget(nextbut)
 
+def setanswer():
+    hyra.setText(base.quest[base.currentQest]["питання"])
+    answers[0].setText(base.quest[base.currentQest]["правильна відповідь"])
+    answers[1].setText(base.quest[base.currentQest]["неправильне1"])
+    answers[2].setText(base.quest[base.currentQest]["неправильне2"])
+    answers[3].setText(base.quest[base.currentQest]["неправильне3"])
+
+setanswer()
+def showResult():
+    for i in range(4):
+        answers[i].hide()
+    result.show()
+    ansbut.hide()
+    if answers[0].isChecked():
+        result.setText("правильно")
+    else:
+        result.setText("не правильно")
+
+ansbut.clicked.connect(showResult)
+nextbut.clicked.connect(showResult)
+
+mainLine.addWidget(ansbut)
 
 window.setLayout(mainLine)
 window.show()
