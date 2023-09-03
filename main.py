@@ -1,78 +1,94 @@
 from PyQt5.QtWidgets import *
-
 import base
+import random
+import menuwind
 
 app = QApplication([])
 window = QWidget()
+window.resize(400 , 300)
+
+mainline = QVBoxLayout()
+
+menubut = QPushButton('меню')
+restbtn = QPushButton('Відпочити')
+timespn = QSpinBox()
+timlb = QLabel('хвилин')
 
 
-mainLine = QVBoxLayout()
-window.resize(500, 500)
+firstline = QHBoxLayout()
+firstline.addWidget(menubut)
+firstline.addWidget(restbtn)
+firstline.addWidget(timespn)
+firstline.addWidget(timlb)
+mainline.addLayout(firstline)
 
-menu8tn = QPushButton("меню")
-rest8tn = QPushButton("Відпочити від ігора")
-timeSpn = QSpinBox()
-timeLbl = QLabel("хвилин")
+quetext = QLabel('скільки отчімів у a4 ?')
+mainline.addWidget(quetext)
 
+answersgroup = QGroupBox('варіанти відповідей')
+answer1 = QRadioButton('1')
+answer2 = QRadioButton('2')
+answer3 = QRadioButton('3')
+answer4 = QRadioButton('4')
+answerline = QVBoxLayout()
+answerline.addWidget(answer1)
+answerline.addWidget(answer2)
+answerline.addWidget(answer3)
+answerline.addWidget(answer4)
+answers = [answer1 , answer2 , answer3 , answer4]
+answersgroup.setLayout(answerline)
+mainline.addWidget(answersgroup)
 
-hyra = QLabel("Яблуко")
-
-firstLine = QHBoxLayout()
-firstLine.addWidget(menu8tn)
-firstLine.addWidget(rest8tn)
-firstLine.addWidget(timeSpn)
-firstLine.addWidget(timeLbl)
-firstLine.addWidget(hyra)
-mainLine.addLayout(firstLine)
-
-answersGroup = QGroupBox("Варіанти відповідей")
-answer1 = QRadioButton("Гітлер")
-answer2 = QRadioButton("Влад")
-answer3 = QRadioButton("Віталік")
-answer4 = QRadioButton("Юра")
-nextbut = QPushButton("наступний запитання")
-ansbut = QPushButton("відповісти")
-
-
-answers = [answer1, answer2, answer3, answer4]
-
-answersLine = QVBoxLayout()
-answersLine.addWidget(answer1)
-answersLine.addWidget(answer2)
-answersLine.addWidget(answer3)
-answersLine.addWidget(answer4)
-
-result = QLabel("результат")
-answersLine.addWidget(result)
+result = QLabel('Результат :')
+answerline.addWidget(result)
 result.hide()
 
-answersGroup.setLayout(answersLine)
-mainLine.addWidget(answersGroup)
-mainLine.addWidget(nextbut)
+ansbut = QPushButton('відповісти')
+nextque = QPushButton('наступне питання')
+mainline.addWidget(ansbut)
+mainline.addWidget(nextque)
+nextque.hide()
 
-def setanswer():
-    hyra.setText(base.quest[base.currentQest]["питання"])
-    answers[0].setText(base.quest[base.currentQest]["правильна відповідь"])
-    answers[1].setText(base.quest[base.currentQest]["неправильне1"])
-    answers[2].setText(base.quest[base.currentQest]["неправильне2"])
-    answers[3].setText(base.quest[base.currentQest]["неправильне3"])
 
-setanswer()
-def showResult():
+def shovresult():
     for i in range(4):
         answers[i].hide()
     result.show()
+    nextque.show()
     ansbut.hide()
     if answers[0].isChecked():
-        result.setText("правильно")
+        result.setText('правильно')
     else:
-        result.setText("не правильно")
+        result.setText('не правильно')
 
-ansbut.clicked.connect(showResult)
-nextbut.clicked.connect(showResult)
+def showqueshon():
+    random.shuffle(answers)
+    quetext.setText(base.qeust[base.currentQuest]['питання:'])
+    answers[0].setText(base.qeust[base.currentQuest]['правильеа відповідь'])
+    answers[1].setText(base.qeust[base.currentQuest]['неправильна1'])
+    answers[2].setText(base.qeust[base.currentQuest]['неправильна2'])
+    answers[3].setText(base.qeust[base.currentQuest]['неправильна3'])
 
-mainLine.addWidget(ansbut)
+def showqueshon2():
+    random.shuffle(answers)
+    quetext.setText(base.qeust[1]['питання:'])
+    answers[0].setText(base.qeust[1]['правильеа відповідь'])
+    answers[1].setText(base.qeust[1]['неправильна1'])
+    answers[2].setText(base.qeust[1]['неправильна2'])
+    answers[3].setText(base.qeust[1]['неправильна3'])
+    result.hide()
+    nextque.hide()
+    for i in range(4):
+        answers[i].show()
+    ansbut.show()
 
-window.setLayout(mainLine)
+
+
+showqueshon()
+ansbut.clicked.connect(shovresult)
+nextque.clicked.connect(showqueshon2)
+menubut.clicked.connect(menuwind.menuWind)
+
+window.setLayout(mainline)
 window.show()
 app.exec()
