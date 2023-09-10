@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import *
 import base
 import random
-import menuwind
+from menuwind import meniuwind
 
 app = QApplication([])
 window = QWidget()
@@ -13,7 +13,6 @@ menubut = QPushButton('меню')
 restbtn = QPushButton('Відпочити')
 timespn = QSpinBox()
 timlb = QLabel('хвилин')
-
 
 firstline = QHBoxLayout()
 firstline.addWidget(menubut)
@@ -45,9 +44,14 @@ result.hide()
 
 ansbut = QPushButton('відповісти')
 nextque = QPushButton('наступне питання')
+addfinisg = QPushButton("добавити питання")
 mainline.addWidget(ansbut)
 mainline.addWidget(nextque)
+mainline.addWidget(addfinisg)
 nextque.hide()
+
+
+
 
 
 def shovresult():
@@ -61,6 +65,10 @@ def shovresult():
     else:
         result.setText('не правильно')
 
+
+
+
+
 def showqueshon():
     random.shuffle(answers)
     quetext.setText(base.qeust[base.currentQuest]['питання:'])
@@ -71,23 +79,30 @@ def showqueshon():
 
 def showqueshon2():
     random.shuffle(answers)
-    quetext.setText(base.qeust[1]['питання:'])
-    answers[0].setText(base.qeust[1]['правильеа відповідь'])
-    answers[1].setText(base.qeust[1]['неправильна1'])
-    answers[2].setText(base.qeust[1]['неправильна2'])
-    answers[3].setText(base.qeust[1]['неправильна3'])
+    base.currentQuest += 1
+    quetext.setText(base.qeust[base.currentQuest]['питання:'])
+    answers[0].setText(base.qeust[base.currentQuest]['правильеа відповідь'])
+    answers[1].setText(base.qeust[base.currentQuest]['неправильна1'])
+    answers[2].setText(base.qeust[base.currentQuest]['неправильна2'])
+    answers[3].setText(base.qeust[base.currentQuest]['неправильна3'])
     result.hide()
     nextque.hide()
     for i in range(4):
         answers[i].show()
     ansbut.show()
 
+def editQuestFuns():
+    window.hide()
+    EditWindow.editWindow()
+    window.show()
 
+    setQuest()
 
 showqueshon()
 ansbut.clicked.connect(shovresult)
 nextque.clicked.connect(showqueshon2)
-menubut.clicked.connect(menuwind.menuWind)
+menubut.clicked.connect(meniuwind)
+editbut
 
 window.setLayout(mainline)
 window.show()
