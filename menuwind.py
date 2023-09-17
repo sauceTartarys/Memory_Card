@@ -4,18 +4,13 @@ import base
 
 
 
-
-
-
-
-def meniuwind():
+def menuiwind():
     window = QDialog()
 
     mainline = QVBoxLayout()
 
     questbl = QLabel("Питання :")
     questEdit = QLineEdit()
-    questEdit.setText(base.quest)
 
     h1 = QHBoxLayout()
     h1.addWidget(questbl)

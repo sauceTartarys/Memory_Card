@@ -1,11 +1,33 @@
 from PyQt5.QtWidgets import *
 import base
 import random
-from menuwind import meniuwind
+from menuwind import menuiwind
+import editwind
 
 app = QApplication([])
 window = QWidget()
 window.resize(400 , 300)
+
+
+app.setStyleSheet("""
+    QWidget {
+        background-color: yellow;
+    }
+    
+    QPushButton{
+        background-color: brown;
+    }
+    GroupBox{
+        background: rgb(177,24,24);
+
+    }
+    QRadioButton{
+        background-color: red;
+    }
+    QLabel{
+        background-color: #b11818;
+        }
+""")
 
 mainline = QVBoxLayout()
 
@@ -13,6 +35,7 @@ menubut = QPushButton('меню')
 restbtn = QPushButton('Відпочити')
 timespn = QSpinBox()
 timlb = QLabel('хвилин')
+redaguvaty = QPushButton('редагувати питаня')
 
 firstline = QHBoxLayout()
 firstline.addWidget(menubut)
@@ -44,15 +67,10 @@ result.hide()
 
 ansbut = QPushButton('відповісти')
 nextque = QPushButton('наступне питання')
-addfinisg = QPushButton("добавити питання")
 mainline.addWidget(ansbut)
 mainline.addWidget(nextque)
-mainline.addWidget(addfinisg)
 nextque.hide()
-
-
-
-
+mainline.addWidget(redaguvaty)
 
 def shovresult():
     for i in range(4):
@@ -64,10 +82,6 @@ def shovresult():
         result.setText('правильно')
     else:
         result.setText('не правильно')
-
-
-
-
 
 def showqueshon():
     random.shuffle(answers)
@@ -91,18 +105,19 @@ def showqueshon2():
         answers[i].show()
     ansbut.show()
 
-def editQuestFuns():
+def redactioned(redaction):
     window.hide()
-    EditWindow.editWindow()
+    redaction.redwind()
     window.show()
 
-    setQuest()
+    showqueshon()
+
 
 showqueshon()
 ansbut.clicked.connect(shovresult)
 nextque.clicked.connect(showqueshon2)
-menubut.clicked.connect(meniuwind)
-editbut
+menubut.clicked.connect(menuiwind)
+redaguvaty.clicked.connect(redactioned)
 
 window.setLayout(mainline)
 window.show()
